@@ -6,5 +6,7 @@ Pasta
 Chicken
 Beens
 
+tofu
+pizza
 
 Thank you !!
