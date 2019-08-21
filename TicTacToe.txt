@@ -1,3 +1,6 @@
+#George Leventopoulos TicTacToe (Python)
+
+
 # ------Global Variables----------
 
 # Game Board
@@ -10,15 +13,14 @@ game_still_going = True
 # Who won? or tie ?
 winner = None
 
-# Who's turn
+# Who's turn (set X as a default)
 current_player = "X"
 
 
 #Display Board
 def display_board():
     print(board[0] + " | " + board[1] + " | " + board[2])
-    print(board[3] + " |"
-                     "6 " + board[4] + " | " + board[5])
+    print(board[3] + " | " + board[4] + " | " + board[5])
     print(board[6] + " | " + board[7] + " | " + board[8])
 
 #Play a TicTacToe Game
@@ -41,7 +43,7 @@ def play_game():
 
         #The game has ended
         if winner == "X" or winner == "O":
-            print(winner + "won.")
+            print(winner + " player won.")
         elif winner == None:
             print("Tie.")
 
@@ -49,10 +51,24 @@ def play_game():
 
 #Handle a single turn of an arbitrary player
 def handle_turn(player):
-    position = input("Choose a position from 1 to 9\n")
-    position = int(position)
 
-    board[position - 1] = "X"
+    print(player + "'s turn.")
+    position = input("Choose a position from 1 to 9\n")
+
+    valid = False
+    while not valid:
+
+        while position not in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+            position = input("Invalid input , please choose a position from 1 to 9:")
+
+        position = int(position) - 1
+
+        if board[position] == "-":
+            valid = True
+        else:
+            print("You can not play in this position.Please try again")
+
+    board[position] = player
 
     display_board()
 
@@ -64,12 +80,13 @@ def check_for_winner():
     #Set up global variables
     global winner
 
-    #check roes
+    #check rows
     row_winner = check_rows()
     #check colums
     colum_winner = check_colums()
     # check diagonals
-    diagonal_winner =check_diagonals()
+    diagonal_winner = check_diagonals()
+
     if row_winner:
         winner = row_winner
     elif colum_winner:
@@ -79,7 +96,7 @@ def check_for_winner():
     else:
         #there is no win
         winner = None
-    return
+    return winner
 
 def check_rows():
     #Set up global variables
@@ -90,7 +107,7 @@ def check_rows():
     row_2 = board[3] == board[4] == board[5] != "-"
     row_3 = board[6] == board[7] == board[8] != "-"
     #if there is a row match , the game stop
-    if row_1 or row_2 or row_3
+    if row_1 or row_2 or row_3:
         game_still_going = False
     #Return the winner
     if row_1:
@@ -99,9 +116,7 @@ def check_rows():
         return board[3]
     elif row_3:
         return bord[6]
-    return
 
-    return
 
 def check_colums():
     # Set up global variables
@@ -112,7 +127,7 @@ def check_colums():
     colum_2 = board[1] == board[4] == board[7] != "-"
     colum_3 = board[2] == board[5] == board[8] != "-"
     # if there is a colum match , the game stop
-    if colum_1 or colum_2 or colum_3
+    if colum_1 or colum_2 or colum_3:
         game_still_going = False
     # Return the winner
     if colum_1:
@@ -121,41 +136,45 @@ def check_colums():
         return board[1]
     elif colum_3:
         return board[2]
-    return
+
 
 def check_diagonals():
     # Set up global variables
     global game_still_going
     # check if any rows have all the same values
     # and it is not empty
-    row_1 = board[0] == board[1] == board[2] != "-"
-    row_2 = board[3] == board[4] == board[5] != "-"
-    row_3 = board[6] == board[7] == board[8] != "-"
+    diagonals_1 = board[0] == board[4] == board[8] != "-"
+    diagonals_2 = board[6] == board[4] == board[2] != "-"
     # if there is a row match , the game stop
-    if row_1 or row_2 or row_3
+    if diagonals_1 or diagonals_2:
         game_still_going = False
     # Return the winner
-    if row_1:
+    if diagonals_1:
         return board[0]
-    elif row_2:
-        return board[3]
-    elif row_3:
-        return bord[6]
+    elif diagonals_2:
+        return board[2]
     return
-    return
+
 
 def check_if_tie():
-    return
+    global game_still_going
+    if "-" not in board:
+        game_still_going = False
+        return
 
 def flip_player():
+    #Global variables we need
+    global current_player
+    # If the current player is "X" , then changed it to "O"
+    if current_player == "X":
+        current_player = "O"
+    # If the current player is "O" , then changed it to "X"
+    elif current_player == "O":
+        current_player = "X"
     return
 
 
 play_game()
-
-
-#play_game()
-
 
 
 # board
